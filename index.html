@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Tetris</title>
+  </head>
+
+  <body>
+    <main>
+      <div class="menu">
+        <div class="level-label">
+          <label for="level">Level:</label>
+          <div class="level-btn">
+            <button aria-label="level Up" class="level-down">-</button>
+            <div aria-label="level" tabindex="0" class="level">1</div>
+            <button aria-label="level Down" class="level-up">+</button>
+          </div>
+        </div>
+        <div class="score-label">
+          <label for="score">Score:</label>
+          <div aria-label="score" tabindex="0" class="score">0</div>
+        </div>
+        <button aria-label="help" class="help">?</button>
+      </div>
+      <canvas id="game-area" aria-label="game area" tabindex="0" width="120px" height="480px" style="background-color: #fff;">
+      </canvas>
+      <div class="controls">
+        <button aria-label="left button" class="left"><-</button>
+        <button aria-label="down button" class="down">V</button>
+        <button aria-label="right button" class="right">-></button>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
