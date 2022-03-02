@@ -122,9 +122,17 @@ Ball.prototype.collision = function (x, y) {
 Ball.prototype.lock = function () {
     if (this.y < 0) {
         alert(`Game Over!\n Your Score is ${gameScore}`);
-        gameOver = true;
+        // gameOver = true;
         // location.reload();
+        for (r = 0; r < ROW; r++) {
+            board[r] = [];
+            for (c = 0; c < COL; c++) {
+                board[r][c] = VACANT;
+            }
+        }
         drawBoard();
+        gameScore=0;
+        document.querySelector(".score").innerHTML="0";
     } else {
         board[this.y][this.x] = this.color;
         // check score
@@ -158,7 +166,6 @@ Ball.prototype.lock = function () {
                         drawBall(r, i, board[i][r]);
                     }
                 }
-                console.log('bug')
                 updateScore();
             }
         }
@@ -201,7 +208,6 @@ function drop() {
     }
     if (!gameOver) {
         requestAnimationFrame(drop);
-
     }
 }
 
