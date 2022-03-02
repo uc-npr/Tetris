@@ -123,7 +123,7 @@ Ball.prototype.lock = function () {
     if (this.y < 0) {
         alert(`Game Over!\n Your Score is ${gameScore}`);
         gameOver = true;
-        location.reload();
+        // location.reload();
     } else {
         board[this.y][this.x] = this.color;
         // check score
@@ -208,7 +208,7 @@ function drop() {
 // Random Ball Function
 function randomBall() {
     let randomN = Math.floor(Math.random() * colors.length)
-    return new Ball(Math.floor(Math.random() * 3), -1, colors[randomN])
+    return new Ball(1, -1, colors[randomN])
 }
 let ball = randomBall();
 ball.draw()
