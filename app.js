@@ -124,6 +124,7 @@ Ball.prototype.lock = function () {
         alert(`Game Over!\n Your Score is ${gameScore}`);
         gameOver = true;
         // location.reload();
+        drawBoard();
     } else {
         board[this.y][this.x] = this.color;
         // check score
@@ -258,13 +259,13 @@ downBtn.addEventListener("click", function () {
 document.addEventListener("keydown", control);
 
 // Tab Trapping
-var focusableElements = document.querySelectorAll(
+let focusableElements = document.querySelectorAll(
     'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable], audio[controls], video[controls], summary, [tabindex^="0"], [tabindex^="1"], [tabindex^="2"], [tabindex^="3"], [tabindex^="4"], [tabindex^="5"], [tabindex^="6"], [tabindex^="7"], [tabindex^="8"], [tabindex^="9"]'
 );
 focusableElements = Array.prototype.slice.call(focusableElements);
 
-var firstElement = focusableElements[0];
-var lastElement = focusableElements[focusableElements.length - 1];
+let firstElement = focusableElements[0];
+let lastElement = focusableElements[focusableElements.length - 1];
 
 document.addEventListener("keydown", trap);
 function trap(event) {
