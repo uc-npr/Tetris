@@ -26,7 +26,7 @@ const level_down_button = document.querySelector(".level-down");
 const level_up_button = document.querySelector(".level-up");
 // game score
 let game_score = 0;
-let gameOver = false;
+let game_over = false;
 const help_button = document.querySelector(".help");
 // Ball control Buttons
 const left_button = document.querySelector(".left");
@@ -220,30 +220,30 @@ function init() {
     help_button.addEventListener("click", help);
     left_button.addEventListener("click", function () {
         ball.moveLeft();
-        dropStart = Date.now();
+        drop_start = Date.now();
     });
     right_button.addEventListener("click", function () {
         ball.moveRight();
-        dropStart = Date.now();
+        drop_start = Date.now();
     });
     down_button.addEventListener("click", function () {
         ball.moveDown();
-        dropStart = Date.now();
+        drop_start = Date.now();
     });
     // Ball control function
     document.addEventListener("keydown", control);
     function control(event) {
         if (event.keyCode == 37) {
             ball.moveLeft();
-            dropStart = Date.now();
+            drop_start = Date.now();
             left_button.focus();
         } else if (event.keyCode == 39) {
             ball.moveRight();
-            dropStart = Date.now();
+            drop_start = Date.now();
             right_button.focus();
         } else if (event.keyCode == 40) {
             ball.moveDown();
-            dropStart = Date.now();
+            drop_start = Date.now();
             down_button.focus();
         } else if (event.keyCode == 107) {
             levelUp();
@@ -255,15 +255,15 @@ function init() {
     }
 }
 
-let dropStart = Date.now();
+let drop_start = Date.now();
 function drop() {
     let now = Date.now();
-    let delta = now - dropStart;
+    let delta = now - drop_start;
     if (delta > 1000 + 180 - game_level * 180) {
         ball.moveDown();
-        dropStart = Date.now();
+        drop_start = Date.now();
     }
-    if (!gameOver) {
+    if (!game_over) {
         requestAnimationFrame(drop);
     }
 }
