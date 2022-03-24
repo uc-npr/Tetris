@@ -173,12 +173,12 @@ function updateScore() {
 // Level Down Function
 function levelDown() {
     let level = document.querySelector(".level");
-    let levelVal = Number(level.innerHTML)
-    if (levelVal === min_level) {
+    let level_value = Number(level.innerHTML)
+    if (level_value === min_level) {
         alert(`Level should be at least ${min_level}`);
     } else {
-        level.innerHTML = levelVal - 1;
-        game_level = levelVal - 1;
+        level.innerHTML = level_value - 1;
+        game_level = level_value - 1;
     }
     drop();
 };
@@ -186,12 +186,12 @@ function levelDown() {
 // Level up Function
 function levelUp() {
     let level = document.querySelector(".level");
-    let levelVal = Number(level.innerHTML);
-    if (levelVal === max_level) {
+    let level_value = Number(level.innerHTML);
+    if (level_value === max_level) {
         alert(`Level ${max_level} is max`);
     } else {
-        level.innerHTML = levelVal + 1;
-        game_level = levelVal + 1;
+        level.innerHTML = level_value + 1;
+        game_level = level_value + 1;
     }
     drop();
 }
