@@ -1,64 +1,60 @@
-// Constants
+/*
+*   File Name    : App.js
+*   Description  : Tetris game JS file
+*   Author       : Nishant Pundir
+*   Version      : 2
+*   Created      : 18 Feb 2022
+*   Updated By   : Nishant Pundir <nishant.pundir@ucertify.com>
+*   Updated Date : 24 Mar 2022
+*/
+
+// Constants and Variables
 const ROW = 12;
 const COL = 3;
 const SIZE = 40;
 const VACANT = "white";
-
 // canvas variables
 const canvas = document.getElementById("game-area");
 const ctx = canvas.getContext("2d");
-
 ctx.canvas.width = COL * SIZE;
 ctx.canvas.height = ROW * SIZE;
-
 // level control Buttons
-const levelDownBtn = document.querySelector(".level-down");
-const levelUpBtn = document.querySelector(".level-up");
-
-let gameScore = 0;
-let score = document.querySelector(".score");
-const helpBtn = document.querySelector(".help");
-
-// Ball control Buttonsu
-const leftBtn = document.querySelector(".left");
-const rightBtn = document.querySelector(".right");
-const downBtn = document.querySelector(".down");
-
+let game_level = 1;
+let max_level = 5;
+let min_level = 1;
+const level_down_button = document.querySelector(".level-down");
+const level_up_button = document.querySelector(".level-up");
+// game score
+let game_score = 0;
+let gameOver = false;
+const help_button = document.querySelector(".help");
+// Ball control Buttons
+const left_button = document.querySelector(".left");
+const right_button = document.querySelector(".right");
+const down_button = document.querySelector(".down");
+// Ball colors
 const colors = ["purple", "green", "yellow", "skyblue"];
 
-//Score Update Function
-function updateScore() {
-    let score = document.querySelector(".score");
-    let scoreVal = Number(score.innerHTML);
-    score.innerHTML = scoreVal + 10;
-    gameScore = scoreVal + 10;
+// to create the board
+let r = 0, c = 0;
+let board = [];
+function emptyBoard() {
+    for (r = 0; r < ROW; r++) {
+        board[r] = [];
+        for (c = 0; c < COL; c++) {
+            board[r][c] = VACANT;
+        }
+    }
 }
 
-let gamelevel = 1;
-// Level Down Function
-function levelDown() {
-    let level = document.querySelector(".level");
-    let levelVal = Number(level.innerHTML)
-    if (levelVal === 1) {
-        alert("Level should be at least 1");
-    } else {
-        level.innerHTML = levelVal - 1;
-        gamelevel = levelVal - 1;
+// to draw the board
+emptyBoard();
+function drawBoard() {
+    for (r = 0; r < ROW; r++) {
+        for (c = 0; c < COL; c++) {
+            drawBall(c, r, board[r][c]);
+        }
     }
-    drop();
-};
-
-// Level up Function
-function levelUp() {
-    let level = document.querySelector(".level");
-    let levelVal = Number(level.innerHTML);
-    if (levelVal === 5) {
-        alert("Level 5 is max");
-    } else {
-        level.innerHTML = levelVal + 1;
-        gamelevel = levelVal + 1;
-    }
-    drop()
 }
 
 // function to draw Ball
@@ -69,75 +65,44 @@ function drawBall(x, y, color) {
     ctx.arc((SIZE / 2) + SIZE * x, (SIZE / 2) + SIZE * y, (SIZE / 2), 0, 2 * Math.PI);
     ctx.fill();
     ctx.stroke();
-    // ctx.fillRect(SIZE*x,SIZE*y,SIZE,SIZE);
 }
 
-// to create the board
-let r = 0, c = 0;
-let board = [];
-for (r = 0; r < ROW; r++) {
-    board[r] = [];
-    for (c = 0; c < COL; c++) {
-        board[r][c] = VACANT;
-    }
-}
-
-// to draw the board
-function drawBoard() {
-    for (r = 0; r < ROW; r++) {
-        for (c = 0; c < COL; c++) {
-            drawBall(c, r, board[r][c]);
-        }
-    }
-}
-
+// Ball Constructor
 function Ball(x, y, color) {
     this.color = color;
     this.x = x;
     this.y = y;
+
 }
 Ball.prototype.draw = function () {
     drawBall(this.x, this.y, this.color);
-    // board[this.y][this.x] = this.color;
 }
 Ball.prototype.unDraw = function () {
     drawBall(this.x, this.y, VACANT);
-    // board[this.y][this.x] = VACANT;
 }
 Ball.prototype.collision = function (x, y) {
     let newX = this.x + x;
     let newY = this.y + y;
-    // console.log(newX, newY)
     if (newX < 0 || newX >= COL || newY >= ROW) {
         return true;
     }
-
-    if (newY < 0) {
-    } else if (board[newY][newX] != VACANT) {
+    if (!(newY < 0) && board[newY][newX] != VACANT) {
         return true;
     }
-
     return false;
 }
 Ball.prototype.lock = function () {
     if (this.y < 0) {
-        alert(`Game Over!\n Your Score is ${gameScore}`);
-        // gameOver = true;
-        // location.reload();
-        for (r = 0; r < ROW; r++) {
-            board[r] = [];
-            for (c = 0; c < COL; c++) {
-                board[r][c] = VACANT;
-            }
-        }
+        alert(`Game Over!\n Your Score is ${game_score}`);
+        emptyBoard();
         drawBoard();
-        gameScore=0;
-        document.querySelector(".score").innerHTML="0";
+        game_score = 0;
+        document.querySelector(".score").innerHTML = game_score;
     } else {
         board[this.y][this.x] = this.color;
         // check score
         if (this.y < 10) {
-            if((board[this.y][this.x] == board[this.y + 1][this.x] && board[this.y + 1][this.x] == board[this.y + 2][this.x]) && (board[this.y][0] == board[this.y][1] && board[this.y][1] == board[this.y][2])){
+            if ((board[this.y][this.x] == board[this.y + 1][this.x] && board[this.y + 1][this.x] == board[this.y + 2][this.x]) && (board[this.y][0] == board[this.y][1] && board[this.y][1] == board[this.y][2])) {
                 board[this.y][this.x] = board[this.y + 1][this.x] = board[this.y + 2][this.x] = VACANT;
                 drawBall(this.x, this.y, VACANT);
                 drawBall(this.x, this.y + 1, VACANT);
@@ -172,7 +137,6 @@ Ball.prototype.lock = function () {
     }
 }
 Ball.prototype.moveDown = function () {
-
     if (!this.collision(0, 1)) {
         this.unDraw();
         this.y++;
@@ -197,12 +161,105 @@ Ball.prototype.moveRight = function () {
         this.draw();
     }
 }
+
+//Score Update Function
+function updateScore() {
+    let score = document.querySelector(".score");
+    let score_value = Number(score.innerHTML);
+    score.innerHTML = score_value + 10;
+    game_score = score_value + 10;
+}
+
+// Level Down Function
+function levelDown() {
+    let level = document.querySelector(".level");
+    let levelVal = Number(level.innerHTML)
+    if (levelVal === min_level) {
+        alert(`Level should be at least ${min_level}`);
+    } else {
+        level.innerHTML = levelVal - 1;
+        game_level = levelVal - 1;
+    }
+    drop();
+};
+
+// Level up Function
+function levelUp() {
+    let level = document.querySelector(".level");
+    let levelVal = Number(level.innerHTML);
+    if (levelVal === max_level) {
+        alert(`Level ${max_level} is max`);
+    } else {
+        level.innerHTML = levelVal + 1;
+        game_level = levelVal + 1;
+    }
+    drop();
+}
+
+// help Function
+function help() {
+    alert(`Help\n
+    - : to level Down\n
+    + : to level Up\n
+    > : to move right\n
+    V : to move Down\n
+    < : to move left\n`);
+}
+
+// Random Ball Function
+function randomBall() {
+    let random_number = Math.floor(Math.random() * colors.length)
+    return new Ball(1, -1, colors[random_number])
+}
+
+// event function
+function init() {
+    //Event Listners
+    level_down_button.addEventListener("click", levelDown);
+    level_up_button.addEventListener("click", levelUp);
+    help_button.addEventListener("click", help);
+    left_button.addEventListener("click", function () {
+        ball.moveLeft();
+        dropStart = Date.now();
+    });
+    right_button.addEventListener("click", function () {
+        ball.moveRight();
+        dropStart = Date.now();
+    });
+    down_button.addEventListener("click", function () {
+        ball.moveDown();
+        dropStart = Date.now();
+    });
+    // Ball control function
+    document.addEventListener("keydown", control);
+    function control(event) {
+        if (event.keyCode == 37) {
+            ball.moveLeft();
+            dropStart = Date.now();
+            left_button.focus();
+        } else if (event.keyCode == 39) {
+            ball.moveRight();
+            dropStart = Date.now();
+            right_button.focus();
+        } else if (event.keyCode == 40) {
+            ball.moveDown();
+            dropStart = Date.now();
+            down_button.focus();
+        } else if (event.keyCode == 107) {
+            levelUp();
+            level_up_button.focus();
+        } else if (event.keyCode == 109) {
+            levelDown();
+            level_down_button.focus();
+        }
+    }
+}
+
 let dropStart = Date.now();
-let gameOver = false;
 function drop() {
     let now = Date.now();
     let delta = now - dropStart;
-    if (delta > 1000 + 180 - gamelevel * 180) {
+    if (delta > 1000 + 180 - game_level * 180) {
         ball.moveDown();
         dropStart = Date.now();
     }
@@ -211,58 +268,10 @@ function drop() {
     }
 }
 
-
-// Random Ball Function
-function randomBall() {
-    let randomN = Math.floor(Math.random() * colors.length)
-    return new Ball(1, -1, colors[randomN])
-}
 let ball = randomBall();
 ball.draw()
 drop();
-
-function control() {
-    if (event.keyCode == 37) {
-        ball.moveLeft();
-        dropStart = Date.now();
-        leftBtn.focus();
-    } else if (event.keyCode == 39) {
-        ball.moveRight();
-        dropStart = Date.now();
-        rightBtn.focus();
-    } else if (event.keyCode == 40) {
-        ball.moveDown();
-        dropStart = Date.now();
-        downBtn.focus();
-    } else if (event.keyCode == 107) {
-        levelUp();
-        levelUpBtn.focus();
-    } else if (event.keyCode == 109) {
-        levelDown();
-        levelDownBtn.focus();
-    }
-}
-
-
-//Event Listners
-levelDownBtn.addEventListener("click", levelDown);
-levelUpBtn.addEventListener("click", levelUp);
-helpBtn.addEventListener("click", help);
-
-leftBtn.addEventListener("click", function () {
-    ball.moveLeft();
-    dropStart = Date.now();
-});
-rightBtn.addEventListener("click", function () {
-    ball.moveRight();
-    dropStart = Date.now();
-});
-downBtn.addEventListener("click", function () {
-    ball.moveDown();
-    dropStart = Date.now();
-});
-
-document.addEventListener("keydown", control);
+init();
 
 // Tab Trapping
 let focusableElements = document.querySelectorAll(
@@ -289,13 +298,4 @@ function trap(event) {
             }
         }
     }
-}
-
-function help(){
-    alert(`Help\n
-    - : to level Down\n
-    + : to level Up\n
-    > : to move right\n
-    V : to move Down\n
-    < : to move left\n`);
 }
