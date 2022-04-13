@@ -3,53 +3,37 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     width: 100vw;
     height: 100vh;
     background-color: #99badd;
-    display: flex;
-    align-items: center;
     justify-content: center;
 }
-main {
+button, input, .width-45 {
+    width: 45px;
+}
+.flex{
     display: flex;
-    flex-direction: column;
+}
+.flex-align-items-center{
     align-items: center;
 }
-
-button, input {
-    width: 45px;
-    margin: 0;
+.flex-justify-content-start{
+    justify-content: flex-start;
 }
-
+.flex-direction-column{
+    flex-direction: column;
+}
 .menu {
-    display: flex;
     align-items: flex-end;
 }
-
 .menu button {
     width: 20px;
 }
 .menu .score,.level {
-    width: 45px;
     background-color: #fff;
     border: 1px solid #767676;
 }
-
 .controls {
     width: 120px;
-    display: flex;
-    align-items: center;
-}
-
-.level-label, .score-label {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.level-btn {
-    display: flex;
-    justify-content: flex-start;
 }

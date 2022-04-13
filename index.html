@@ -8,26 +8,26 @@
     <title>Tetris</title>
   </head>
 
-  <body>
-    <main>
-      <div class="menu">
+  <body class="flex flex-align-items-center">
+    <main class="flex flex-align-items-center flex-direction-column">
+      <div class="flex flex-align-items-center menu">
         <div class="level-label">
           <label>Level:</label>
-          <div class="level-btn">
+          <div class="flex flex-justify-content-start level-btn">
             <button aria-label="level Up" class="level-down">-</button>
-            <div tabindex="0" class="level">1</div>
+            <div tabindex="0" class="level width-45">1</div>
             <button aria-label="level Down" class="level-up">+</button>
           </div>
         </div>
-        <div class="score-label">
+        <div class="flex flex-direction-column flex-justify-content-start score-label">
           <label>Score:</label>
-          <div tabindex="0" class="score">0</div>
+          <div tabindex="0" class="score width-45">0</div>
         </div>
         <button aria-label="help" class="help">?</button>
       </div>
       <canvas id="game-area" tabindex="0" style="background-color: #fff">
       </canvas>
-      <div class="controls">
+      <div class="flex flex-align-items-center controls ">
         <button aria-label="left button" class="left">&lt;</button>
         <button aria-label="down button" class="down">V</button>
         <button aria-label="right button" class="right">&gt;</button>
