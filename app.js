@@ -172,7 +172,7 @@ function updateScore() {
 
 // Level Down Function
 function levelDown() {
-    let level = document.querySelector(".level");
+let level = document.querySelector(".level");
     let level_value = Number(level.innerHTML)
     if (level_value === min_level) {
         alert(`Level should be at least ${min_level}`);
@@ -203,7 +203,8 @@ function help() {
     + : to level Up\n
     > : to move right\n
     V : to move Down\n
-    < : to move left\n`);
+    < : to move left\n
+    H : to help\n`);
 }
 
 // Random Ball Function
@@ -245,13 +246,16 @@ function init() {
             ball.moveDown();
             drop_start = Date.now();
             down_button.focus();
-        } else if (event.keyCode == 107) {
+        } else if (event.keyCode == 107 || event.keyCode == 187) {
             levelUp();
             level_up_button.focus();
-        } else if (event.keyCode == 109) {
+        } else if (event.keyCode == 109 || event.keyCode == 189) {
             levelDown();
             level_down_button.focus();
-        }
+        } else if (event.keyCode == 72) {
+            help();
+        help_button.focus();
+    }
     }
 }
 
